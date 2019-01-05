@@ -3,7 +3,11 @@
               {description,"islands_engine"},
               {modules,['Elixir.IslandsEngine',
                         'Elixir.IslandsEngine.Application',
-                        'Elixir.IslandsEngine.Coordinate']},
+                        'Elixir.IslandsEngine.Board',
+                        'Elixir.IslandsEngine.Coordinate',
+                        'Elixir.IslandsEngine.Island',
+                        'Elixir.IslandsEngine.IslandSet',
+                        'Elixir.IslandsEngine.Player']},
               {registered,[]},
               {vsn,"0.1.0"},
               {mod,{'Elixir.IslandsEngine.Application',[]}}]}.
