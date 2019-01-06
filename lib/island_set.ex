@@ -1,6 +1,7 @@
 defmodule IslandsEngine.IslandSet do
   alias IslandsEngine.IslandSet
   alias IslandsEngine.Island
+  alias IslandsEngine.Coordinate
 
   defstruct atoll: :none, dot: :none, l_shape: :none, s_shape: :none, square: :none
 
@@ -29,4 +30,27 @@ defmodule IslandsEngine.IslandSet do
         island = Agent.get(island_set, &(Map.fetch!(&1, key)))
     acc <> "#{key} => " <> Island.to_string(island) <> "\n" end)
   end
+
+  def set_island_coordinates(island_set, island_key, new_coordinates) do
+      island = Agent.get(island_set, fn state -> Map.get(state, island_key) end)
+      original_coordinates = Agent.get(island, fn state -> state end)
+      Island.replace_coordinates(island, new_coordinates)
+      Coordinate.set_all_in_island(original_coordinates, :none)
+      Coordinate.set_all_in_island(new_coordinates, island_key)
+  end
+  def all_forested?(island_set) do
+    islands = Agent.get(island_set, &(&1))
+    Enum.all?(keys(), fn key -> Island.forested?(Map.get(islands, key)) end)
+  end
+
+  def forested?(_island_set, :none) do
+    false
+  end
+
+  def forested?(island_set, island_key) do
+    island_set
+      |> Agent.get(fn state -> Map.get(state, island_key) end)
+      |> Island.forested?
+  end
+
 end
