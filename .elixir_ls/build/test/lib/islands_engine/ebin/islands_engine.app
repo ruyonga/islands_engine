@@ -8,7 +8,8 @@
                         'Elixir.IslandsEngine.Game',
                         'Elixir.IslandsEngine.Island',
                         'Elixir.IslandsEngine.IslandSet',
-                        'Elixir.IslandsEngine.Player']},
+                        'Elixir.IslandsEngine.Player',
+                        'Elixir.IslandsEngine.Rules']},
               {registered,[]},
               {vsn,"0.1.0"},
               {mod,{'Elixir.IslandsEngine.Application',[]}}]}.
