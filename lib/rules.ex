@@ -4,6 +4,7 @@ defmodule IslandsEngine.Rules do
   @behaviour :gen_statem
 
   defstruct player1: :islands_not_set, player2: :islands_not_set
+
   def start_link() do
     :gen_statem.start_link(__MODULE__, :initialized, [])
   end
@@ -79,12 +80,12 @@ defmodule IslandsEngine.Rules do
     {:next_state, :game_over, state_data, {:reply, from, :ok}}
   end
 
-  def player2_turn(_event, _caller_pid, state) do
-    {:reply, {:error, :action_out_of_sequence}, :player2_turn, state}
-  end
-
   def player2_turn({:call, from}, :show_current_state, _state_data) do
     {:keep_state_and_data, {:reply, from, :player2_turn}}
+  end
+
+  def player2_turn(_event, _caller_pid, state) do
+    {:reply, {:error, :action_out_of_sequence}, :player2_turn, state}
   end
 
   def game_over({:call, from}, :show_current_state, _state_data) do
@@ -103,7 +104,7 @@ defmodule IslandsEngine.Rules do
     {:keep_state, state_data, {:reply, from, :ok}}
   end
 
-  #public apis
+  # public apis
   def show_current_state(fsm) do
     :gen_statem.call(fsm, :show_current_state)
   end
@@ -112,11 +113,19 @@ defmodule IslandsEngine.Rules do
     :gen_statem.call(fsm, :add_player)
   end
 
-  def move_island(fsm, player) when is_atom player do
+  def move_island(fsm, player) when is_atom(player) do
     :gen_statem.call(fsm, {:move_island, player})
   end
 
-  def set_islands(fsm, player) when is_atom player do
+  def set_islands(fsm, player) when is_atom(player) do
     :gen_statem.call(fsm, {:set_islands, player})
+  end
+
+  def guess_coordinate(fsm, player) when is_atom(player) do
+    :gen_statem.call(fsm, {:guess_coordinate, player})
+  end
+
+  def win(fsm) do
+    :gen_statem.call(fsm, :win)
   end
 end
